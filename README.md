@@ -24,7 +24,7 @@ QuizTrove is an online quiz application that allows users to create quizzes, add
    npm install
    ```
 
-3. Create a `.env` file with your MongoDB URI and JWT secret.
+3. Create a `.env` file with your MongoDB URI, JWT secret, token expiration time, and Node environment.
 
 ### Running the Application
 
