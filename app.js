@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require("path");
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
 const quizRoutes = require("./routes/quizRoutes");
@@ -17,6 +18,9 @@ app.use(express.json());
 
 // Enable CORS for all requests
 app.use(cors());
+
+// Serve static files from the 'uploads' directory
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Swagger configuration
 const swaggerOptions = {

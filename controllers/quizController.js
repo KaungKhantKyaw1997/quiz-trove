@@ -4,8 +4,14 @@ const Question = require("../models/Question");
 // Create a new quiz
 const createQuiz = async (req, res) => {
   const { title, description } = req.body;
+  const image = req.file ? req.file.path : null;
   try {
-    const newQuiz = new Quiz({ title, description, createdBy: req.user.id });
+    const newQuiz = new Quiz({
+      title,
+      description,
+      image,
+      createdBy: req.user.id,
+    });
     await newQuiz.save();
     res.status(201).json(newQuiz);
   } catch (error) {
@@ -41,12 +47,16 @@ const getQuiz = async (req, res) => {
 const updateQuiz = async (req, res) => {
   const { id } = req.params;
   const { title, description } = req.body;
+  const image = req.file ? req.file.path : undefined;
   try {
-    const quiz = await Quiz.findByIdAndUpdate(
-      id,
-      { title, description },
-      { new: true }
-    );
+    const quizData = {
+      title,
+      description,
+    };
+    if (image) {
+      quizData.image = image;
+    }
+    const quiz = await Quiz.findByIdAndUpdate(id, quizData, { new: true });
     if (!quiz) {
       return res.status(404).json({ message: "Quiz not found" });
     }

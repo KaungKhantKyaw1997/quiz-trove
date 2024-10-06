@@ -7,6 +7,7 @@ const {
   deleteQuiz,
 } = require("../controllers/quizController");
 const authMiddleware = require("../middlewares/authMiddleware");
+const upload = require("../middlewares/multerConfig");
 const router = express.Router();
 
 /**
@@ -20,6 +21,9 @@ const router = express.Router();
  *           type: string
  *         description:
  *           type: string
+ *         image:
+ *           type: string
+ *           format: binary
  *       required:
  *         - title
  */
@@ -33,9 +37,17 @@ const router = express.Router();
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
- *             $ref: '#/components/schemas/Quiz'
+ *             type: object
+ *             properties:
+ *               title:
+ *                 type: string
+ *               description:
+ *                 type: string
+ *               image:
+ *                 type: string
+ *                 format: binary
  *     responses:
  *       201:
  *         description: Quiz created successfully
@@ -94,9 +106,17 @@ const router = express.Router();
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
- *             $ref: '#/components/schemas/Quiz'
+ *             type: object
+ *             properties:
+ *               title:
+ *                 type: string
+ *               description:
+ *                 type: string
+ *               image:
+ *                 type: string
+ *                 format: binary
  *     responses:
  *       200:
  *         description: Quiz updated successfully
@@ -128,10 +148,10 @@ const router = express.Router();
  *         description: Server error
  */
 
-router.post("/", authMiddleware, createQuiz);
+router.post("/", authMiddleware, upload.single("image"), createQuiz);
 router.get("/", getAllQuizzes);
 router.get("/:id", getQuiz);
-router.put("/:id", authMiddleware, updateQuiz);
+router.put("/:id", authMiddleware, upload.single("image"), updateQuiz);
 router.delete("/:id", authMiddleware, deleteQuiz);
 
 module.exports = router;
