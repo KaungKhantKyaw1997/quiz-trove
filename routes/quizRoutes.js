@@ -62,6 +62,13 @@ const router = express.Router();
  *   get:
  *     summary: Get all quizzes
  *     tags: [Quizzes]
+ *     parameters:
+ *       - in: query
+ *         name: search
+ *         required: false
+ *         schema:
+ *           type: string
+ *         description: Optional search term to filter quizzes by title.
  *     responses:
  *       200:
  *         description: A list of quizzes

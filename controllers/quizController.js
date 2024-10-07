@@ -21,10 +21,16 @@ const createQuiz = async (req, res) => {
   }
 };
 
-// Get all quizzes
+// Get all quizzes with optional search filter
 const getAllQuizzes = async (req, res) => {
+  const { search } = req.query;
   try {
-    const quizzes = await Quiz.find();
+    let quizzes;
+    if (search && search.trim()) {
+      quizzes = await Quiz.find({ title: { $regex: search, $options: "i" } });
+    } else {
+      quizzes = await Quiz.find();
+    }
     res.json(quizzes);
   } catch (error) {
     res.status(500).json({ message: "Server error" });
