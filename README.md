@@ -51,9 +51,9 @@ http://localhost:5001/api-docs
 - **Log in a user**
   - `POST /api/v1/auth/login`
 - **Update user information**
-  - `PUT /api/v1/auth/update`
+  - `PUT /api/v1/auth/users/me`
 - **Delete a user**
-  - `DELETE /api/v1/auth/delete`
+  - `DELETE /api/v1/auth/users/me`
 
 **Quizzes**
 
@@ -71,9 +71,9 @@ http://localhost:5001/api-docs
 **Questions**
 
 - **Add a question to a quiz**
-  - `POST /api/v1/quizzes/{id}/questions`
+  - `POST /api/v1/quizzes/{quizId}/questions`
 - **Get all questions of a quiz**
-  - `GET /api/v1/quizzes/{id}/questions?page={page}&limit={limit}`
+  - `GET /api/v1/quizzes/{quizId}/questions?page={page}&limit={limit}`
 - **Update a question in a quiz**
   - `PUT /api/v1/quizzes/{quizId}/questions/{questionId}`
 - **Delete a question from a quiz**
