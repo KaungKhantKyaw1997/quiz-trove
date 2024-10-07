@@ -1,7 +1,7 @@
 {
   "name": "quiz-trove",
   "version": "1.0.1",
-  "description": "QuizTrove is an online platform for creating and managing quizzes, allowing users to test their knowledge and track progress.",
+  "description": "Quiz Trove is an online platform for creating and managing quizzes, allowing users to test their knowledge and track progress.",
   "main": "app.js",
   "scripts": {
     "start": "node app.js"
