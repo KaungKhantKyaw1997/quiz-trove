@@ -1,6 +1,6 @@
 # Quiz Trove
 
-Quiz Trove is an online quiz application that allows users to create quizzes, add questions, and test their knowledge.
+**Quiz Trove** is an online quiz application that allows users to create quizzes, add questions, and test their knowledge.
 
 ## Getting Started
 
