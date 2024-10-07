@@ -14,6 +14,7 @@ dotenv.config();
 connectDB();
 
 const app = express();
+const port = 5001;
 app.use(express.json());
 
 // Enable CORS for all requests
@@ -36,7 +37,7 @@ const swaggerOptions = {
         url:
           process.env.NODE_ENV === "production"
             ? "https://quiz-trove.onrender.com"
-            : "http://localhost:5001",
+            : `http://localhost:${port}`,
       },
     ],
     components: {
@@ -68,7 +69,6 @@ app.use("/api/v1/quizzes", questionRoutes);
 // Error handling middleware
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 5001;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+app.listen(port, () => {
+  console.log(`App is running on http://localhost:${port}`);
 });
