@@ -1,3 +1,5 @@
+const fs = require("fs");
+const path = require("path");
 const Quiz = require("../models/Quiz");
 const Question = require("../models/Question");
 
@@ -48,19 +50,32 @@ const updateQuiz = async (req, res) => {
   const { id } = req.params;
   const { title, description } = req.body;
   const image = req.file ? req.file.path : undefined;
+
   try {
-    const quizData = {
-      title,
-      description,
-    };
-    if (image) {
-      quizData.image = image;
-    }
-    const quiz = await Quiz.findByIdAndUpdate(id, quizData, { new: true });
+    const quiz = await Quiz.findById(id);
     if (!quiz) {
       return res.status(404).json({ message: "Quiz not found" });
     }
-    res.json(quiz);
+    if (image && quiz.image) {
+      const oldImagePath = path.join(
+        __dirname,
+        "../uploads",
+        quiz.image.split("/").pop()
+      );
+      fs.unlink(oldImagePath, (err) => {
+        if (err) {
+          console.error("Error deleting old image:", err);
+        }
+      });
+    }
+    const quizData = { title, description };
+    if (image) {
+      quizData.image = image;
+    }
+    const updatedQuiz = await Quiz.findByIdAndUpdate(id, quizData, {
+      new: true,
+    });
+    res.json(updatedQuiz);
   } catch (error) {
     res.status(500).json({ message: "Server error" });
   }
@@ -70,12 +85,24 @@ const updateQuiz = async (req, res) => {
 const deleteQuiz = async (req, res) => {
   const { id } = req.params;
   try {
-    await Question.deleteMany({ quizId: id });
-
-    const quiz = await Quiz.findByIdAndDelete(id);
+    const quiz = await Quiz.findById(id);
     if (!quiz) {
       return res.status(404).json({ message: "Quiz not found" });
     }
+    if (quiz.image) {
+      const imagePath = path.join(
+        __dirname,
+        "../uploads",
+        quiz.image.split("/").pop()
+      );
+      fs.unlink(imagePath, (err) => {
+        if (err) {
+          console.error("Error deleting image:", err);
+        }
+      });
+    }
+    await Question.deleteMany({ quizId: id });
+    await Quiz.findByIdAndDelete(id);
     res.json({ message: "Quiz deleted successfully" });
   } catch (error) {
     res.status(500).json({ message: "Server error" });

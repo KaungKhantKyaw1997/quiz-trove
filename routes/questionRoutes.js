@@ -34,12 +34,12 @@ const router = express.Router();
 
 /**
  * @swagger
- * /api/v1/quizzes/{id}/questions:
+ * /api/v1/quizzes/{quizId}/questions:
  *   post:
  *     summary: Add a question to a quiz
  *     tags: [Questions]
  *     parameters:
- *       - name: id
+ *       - name: quizId
  *         in: path
  *         required: true
  *         description: The ID of the quiz
@@ -62,12 +62,12 @@ const router = express.Router();
 
 /**
  * @swagger
- * /api/v1/quizzes/{id}/questions:
+ * /api/v1/quizzes/{quizId}/questions:
  *   get:
  *     summary: Get all questions of a quiz
  *     tags: [Questions]
  *     parameters:
- *       - name: id
+ *       - name: quizId
  *         in: path
  *         required: true
  *         description: The ID of the quiz
@@ -156,8 +156,8 @@ const router = express.Router();
  *         description: Server error
  */
 
-router.post("/:id/questions", authMiddleware, addQuestion);
-router.get("/:id/questions", getQuestions);
+router.post("/:quizId/questions", authMiddleware, addQuestion);
+router.get("/:quizId/questions", getQuestions);
 router.put("/:quizId/questions/:questionId", authMiddleware, updateQuestion);
 router.delete("/:quizId/questions/:questionId", authMiddleware, deleteQuestion);
 

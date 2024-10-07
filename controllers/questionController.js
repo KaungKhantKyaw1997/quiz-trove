@@ -3,14 +3,19 @@ const Quiz = require("../models/Quiz");
 
 // Add a question to a quiz
 const addQuestion = async (req, res) => {
-  const { id } = req.params;
+  const { quizId } = req.params;
   const { questionText, options, correctAnswer } = req.body;
   try {
-    const quiz = await Quiz.findById(id);
+    const quiz = await Quiz.findById(quizId);
     if (!quiz) {
       return res.status(404).json({ message: "Quiz not found" });
     }
-    const newQuestion = new Question({ questionText, options, correctAnswer });
+    const newQuestion = new Question({
+      quizId,
+      questionText,
+      options,
+      correctAnswer,
+    });
     quiz.questions.push(newQuestion);
     await newQuestion.save();
     await quiz.save();
@@ -20,9 +25,17 @@ const addQuestion = async (req, res) => {
   }
 };
 
+const shuffleArray = (array) => {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+};
+
 // Get all questions of a quiz with pagination
 const getQuestions = async (req, res) => {
-  const { id } = req.params;
+  const { quizId } = req.params;
   const { page = 1, limit = 10 } = req.query;
 
   const options = {
@@ -31,14 +44,14 @@ const getQuestions = async (req, res) => {
   };
 
   try {
-    const quiz = await Quiz.findById(id);
+    const quiz = await Quiz.findById(quizId);
     if (!quiz) {
       return res.status(404).json({ message: "Quiz not found" });
     }
 
     const totalQuestions = quiz.questions.length;
 
-    const questions = await Quiz.findById(id)
+    const questions = await Quiz.findById(quizId)
       .populate({
         path: "questions",
         options: {
@@ -48,13 +61,15 @@ const getQuestions = async (req, res) => {
       })
       .then((quiz) => quiz.questions);
 
+    const randomizedQuestions = shuffleArray(questions);
+
     const totalPages = Math.ceil(totalQuestions / options.limit);
 
     const response = {
       totalQuestions,
       currentPage: options.page,
       totalPages: totalPages,
-      questions: questions,
+      questions: randomizedQuestions,
     };
 
     res.json(response);

@@ -75,7 +75,7 @@ const router = express.Router();
 
 /**
  * @swagger
- * /api/v1/auth/update:
+ * /api/v1/auth/users/me:
  *   put:
  *     summary: Update user information
  *     tags: [Authentication]
@@ -96,7 +96,7 @@ const router = express.Router();
 
 /**
  * @swagger
- * /api/v1/auth/delete:
+ * /api/v1/auth/users/me:
  *   delete:
  *     summary: Delete a user
  *     tags: [Authentication]
@@ -111,7 +111,7 @@ const router = express.Router();
 
 router.post("/register", register);
 router.post("/login", login);
-router.put("/update", authMiddleware, updateUser);
-router.delete("/delete", authMiddleware, deleteUser);
+router.put("/users/me", authMiddleware, updateUser);
+router.delete("/users/me", authMiddleware, deleteUser);
 
 module.exports = router;
