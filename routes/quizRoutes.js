@@ -26,7 +26,7 @@ const router = express.Router();
  *           type: string
  *         image:
  *           type: string
- *           format: byte
+ *           format: binary
  *       required:
  *         - title
  *         - image
