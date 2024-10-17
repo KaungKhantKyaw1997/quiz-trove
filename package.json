@@ -1,0 +1,30 @@
+{
+  "name": "quiz-trove",
+  "version": "1.0.1",
+  "description": "Quiz Trove is an online platform for creating and managing quizzes, allowing users to test their knowledge and track progress.",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "keywords": [
+    "quiz",
+    "learning",
+    "education",
+    "express",
+    "mongoDB"
+  ],
+  "author": "Kaung Khant Kyaw",
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "exceljs": "^4.4.0",
+    "express": "^4.21.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.7.0",
+    "multer": "^1.4.5-lts.1",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
+  }
+}
